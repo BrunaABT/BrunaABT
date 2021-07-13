@@ -1,6 +1,3 @@
-var heading;
-heading = document.getElementById("colourValue");
-
 function setButtonColour(button, red, green, blue) {
   button.setAttribute(
     "style",
@@ -12,10 +9,13 @@ function makeColourValue() {
   return Math.round(Math.random() * 255);
 }
 
-var buttons = document.getElementsByClassName("colourButton");
+var heading = document.getElementById("colourValue");
 var answerMessage = document.getElementById("answer");
+var buttons = document.getElementsByClassName("colourButton");
 
 function startGame() {
+  answerMessage.innerHTML = "";
+  content.setAttribute("style", "background-color: whitesmoke");
   var answerButton = Math.round(Math.random() * (buttons.length - 1));
   for (var i = 0; i < buttons.length; i++) {
     var red = makeColourValue();
@@ -24,17 +24,17 @@ function startGame() {
 
     setButtonColour(buttons[i], red, green, blue);
 
-    if (i == answerButton) {
-      heading.innerHTML = `(${red}, ${green}, ${blue})`;
+    if (i === answerButton) {
+      heading.innerHTML = `RGB = (${red}, ${green}, ${blue})`;
       var winningRed = red;
       var winningGreen = green;
       var winningBlue = blue;
     }
 
     buttons[i].addEventListener("click", function () {
-      if (this == buttons[answerButton]) {
+      if (this === buttons[answerButton]) {
         answerMessage.innerHTML = "Correct!";
-        page.setAttribute(
+        content.setAttribute(
           "style",
           `background-color: rgb(${winningRed}, ${winningGreen}, ${winningBlue})`
         );
@@ -43,9 +43,11 @@ function startGame() {
       }
     });
   }
-  answerMessage.innerHTML = "";
-  page.setAttribute("style", "background-color: rgb(255,255,255)");
+}
+
+function reload() {
+  location.reload();
 }
 
 startGame();
-document.getElementById("resetButton").addEventListener("click", startGame);
+document.getElementById("resetButton").addEventListener("click", reload);
